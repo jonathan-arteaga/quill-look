@@ -250,7 +250,7 @@ compress_sign_and_notarize_dmg() {
   xcrun notarytool submit "$FINAL_DMG" --keychain-profile "$NOTARY_PROFILE" --wait
   xcrun stapler staple "$FINAL_DMG"
   xcrun stapler validate "$FINAL_DMG"
-  spctl --assess --type open --verbose=4 "$FINAL_DMG"
+  spctl --assess --type open --context context:primary-signature --verbose=4 "$FINAL_DMG"
 }
 
 require_tool xcrun "Install Xcode command line tools."
