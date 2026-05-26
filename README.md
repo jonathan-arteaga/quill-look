@@ -40,83 +40,86 @@ Finder is great for moving through folders, but Markdown files are usually hard 
 
 QuillLook renders common Markdown features directly inside Quick Look, including task lists, highlighted code, tables, Mermaid diagrams, and math.
 
-## Features
+## Get Started
 
-- Native Finder Quick Look previews for Markdown and MDX files.
-- Local rendering with no network requests.
-- GitHub-style Markdown basics, including tables and task lists.
-- Syntax highlighting for fenced code blocks.
-- Mermaid diagrams for `mermaid` code fences.
-- KaTeX math rendering when math delimiters are present.
-- Relative local image support when files are readable.
-- Preview and source modes.
-- Lightweight asset loading so simple Markdown stays fast.
-
-## Install
-
-1. Download `QuillLook-0.1.0-macOS.dmg`.
-2. Open the guided DMG and drag `QuillLook.app` into Applications.
-3. Open QuillLook once so macOS discovers the Quick Look extension.
-4. If macOS prompts you, enable the extension in System Settings.
+1. Download [QuillLook 0.1.0 for macOS](https://github.com/jonathan-arteaga/quill-look/releases/download/v0.1.0/QuillLook-0.1.0-macOS.dmg).
+2. Open the guided DMG.
+3. Drag `QuillLook.app` into Applications.
+4. Open QuillLook once so macOS can find the Quick Look extension.
 5. Select a Markdown file in Finder and press Space.
+
+If macOS asks whether to enable the extension, allow QuillLook in System Settings. After that, you can use it directly from Finder.
 
 The DMG is signed with Developer ID, notarized by Apple, and stapled for public distribution.
 
-## Uninstall
+## What QuillLook Handles
+
+QuillLook is meant for everyday Markdown browsing, not editing. It is useful for checking project docs, generated reports, exported notes, README files, and MDX content without opening a separate app.
+
+- **Files:** `md`, `markdown`, `mdown`, `mkd`, `mkdn`, `mdx`
+- **Markdown:** headings, paragraphs, links, lists, blockquotes, tables, task lists, and inline formatting
+- **Code:** fenced code blocks with language-aware highlighting
+- **Diagrams:** Mermaid blocks using fenced `mermaid` code
+- **Math:** KaTeX rendering when math delimiters are present
+- **Images:** relative local images when the image files are readable
+- **Source view:** a quick toggle when you want to inspect the original Markdown
+
+## Privacy
+
+QuillLook renders files locally on your Mac. It does not upload your Markdown, call a web service, or require an account. Bundled rendering assets are loaded from the app, and web links open outside the preview instead of navigating inside Quick Look.
+
+## Remove QuillLook
 
 Open the DMG and launch `Uninstall QuillLook.app`.
 
 The uninstaller asks for confirmation, removes QuillLook from Applications, unregisters the Quick Look extension, clears QuillLook caches/preferences, and refreshes Quick Look. If the app was installed in `/Applications` with stricter permissions, macOS may ask for an administrator password. Your Markdown files are not touched.
 
-## Supported Files
+## Troubleshooting
 
-`md`, `markdown`, `mdown`, `mkd`, `mkdn`, `mdx`
+### QuillLook does not appear in Quick Look
 
-## FAQ
+Open QuillLook once from Applications, then try Finder again. If macOS shows an Extensions prompt, enable QuillLook there.
 
-### Why do I need to open the app once?
+### The preview still looks stale after editing
 
-macOS discovers Quick Look extensions from installed apps. Opening QuillLook once gives the system a clean chance to register the extension.
-
-### Where does QuillLook show up?
-
-QuillLook appears in Finder Quick Look. Select a supported Markdown file and press Space. The containing app is only there for onboarding, samples, and cleanup help.
-
-### Does it send my files anywhere?
-
-No. Rendering is local and offline. Bundled assets are loaded from the app, and links are blocked from navigating inside the preview.
-
-### Why is a preview stale after editing?
-
-Finder can cache Quick Look previews. Re-selecting the file usually refreshes it; if it stays stale, run:
+Finder sometimes caches Quick Look previews. Select a different file, return to the Markdown file, and press Space again. If it still looks stale, restart Finder or clear the Quick Look cache:
 
 ```bash
 qlmanage -r cache
 ```
 
-### How do I remove duplicate Quick Look entries?
+### I see duplicate QuillLook entries
 
-If you used local development builds, stale copies can remain registered with macOS. From the repo, run:
+This usually happens after running local development builds from multiple folders. For normal installs, run `Uninstall QuillLook.app` from the DMG, then install the current DMG again.
+
+Developers can also clean local build registrations from the repo:
 
 ```bash
 ./script/build_and_run.sh --clean-stale
 ```
 
-End users can also run `Uninstall QuillLook.app` from the DMG to remove installed copies and clear Quick Look registrations.
+### Why do I need to open the app once?
 
-## Build From Source
+QuillLook is delivered as a normal Mac app that contains a Quick Look extension. Opening the app once gives macOS a clean chance to discover and register that extension.
+
+### Where does QuillLook show up?
+
+In Finder. Select a supported Markdown file and press Space. The app window is only for onboarding, sample files, and cleanup help.
+
+## For Developers
+
+<details>
+<summary>Build from source, package the DMG, and publish releases</summary>
 
 QuillLook uses XcodeGen to generate the Xcode project.
+
+Build, install locally, refresh Quick Look, and launch the app:
 
 ```bash
 ./script/build_and_run.sh --verify
 ```
 
-This generates the project, builds the app, installs it into `~/Applications`, refreshes Quick Look, and launches the containing app.
-
-## Public Release
-
-To produce the signed and notarized DMG:
+Create the public signed and notarized DMG:
 
 ```bash
 ./script/package_dmg.sh
@@ -137,19 +140,19 @@ xcrun notarytool store-credentials quilllook-notary \
   --password YOUR_APP_SPECIFIC_PASSWORD
 ```
 
-After packaging, publish the DMG to the GitHub release:
+Publish the notarized DMG to the GitHub release:
 
 ```bash
 ./script/publish_release.sh
 ```
 
-## Local Development Package
+For local testing only, you can also create an ad-hoc signed zip:
 
 ```bash
 ./script/package_release.sh
 ```
 
-This creates an ad-hoc signed zip for local testing only. Use the DMG flow for public downloads.
+</details>
 
 ## Status
 
