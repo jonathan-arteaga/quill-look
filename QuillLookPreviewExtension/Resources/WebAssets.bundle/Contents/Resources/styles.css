@@ -1,0 +1,215 @@
+:root {
+  color-scheme: light dark;
+  --bg: #fbfbfa;
+  --fg: #202124;
+  --muted: #74777d;
+  --border: #dedee3;
+  --code-bg: #f4f5f7;
+  --quote-bg: #f7f8fa;
+  --accent: #0a7cff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151618;
+    --fg: #e8e8ea;
+    --muted: #a5a9b0;
+    --border: #34373d;
+    --code-bg: #1f2227;
+    --quote-bg: #1b1e23;
+    --accent: #6aa9ff;
+  }
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  box-sizing: border-box;
+  max-width: 860px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 30px 42px 60px;
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+.quilllook-modebar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  margin: -10px 0 18px;
+  padding: 6px 0 12px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(16px);
+}
+
+.quilllook-modebar button {
+  min-width: 82px;
+  min-height: 26px;
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  background: color-mix(in srgb, var(--bg) 96%, var(--fg) 4%);
+  color: var(--fg);
+  padding: 3px 10px;
+  font: 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+}
+
+.quilllook-modebar button:first-child {
+  border-radius: 7px 0 0 7px;
+}
+
+.quilllook-modebar button:last-child {
+  border-left: 0;
+  border-radius: 0 7px 7px 0;
+}
+
+.quilllook-modebar button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.quilllook-panel[hidden] {
+  display: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 1.25em 0 0.48em;
+  line-height: 1.22;
+  font-weight: 680;
+}
+
+h1 {
+  margin-top: 0;
+  padding-bottom: 0.24em;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.72rem;
+}
+
+h2 {
+  padding-bottom: 0.16em;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.28rem;
+}
+
+p, ul, ol, blockquote, pre, table {
+  margin: 0.78em 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.missing-image {
+  display: inline-block;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  background: var(--quote-bg);
+  font-size: 0.9em;
+}
+
+blockquote {
+  padding: 0.5em 0.9em;
+  border-left: 3px solid var(--border);
+  border-radius: 0 6px 6px 0;
+  color: var(--muted);
+  background: var(--quote-bg);
+}
+
+code {
+  padding: 0.16em 0.34em;
+  border-radius: 4px;
+  background: var(--code-bg);
+  font: 0.91em/1.45 "SF Mono", Menlo, Consolas, monospace;
+}
+
+pre {
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--code-bg);
+}
+
+pre code {
+  padding: 0;
+  background: transparent;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+th, td {
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  background: var(--quote-bg);
+  font-weight: 650;
+}
+
+hr {
+  height: 1px;
+  margin: 1.6em 0;
+  border: 0;
+  background: var(--border);
+}
+
+.task-list {
+  list-style: none;
+  padding-left: 0.2em;
+}
+
+.task-list input {
+  margin-right: 0.55em;
+}
+
+.mermaid {
+  margin: 1em 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--quote-bg);
+}
+
+.source-view {
+  max-width: none;
+  padding: 0;
+}
+
+.source-view pre {
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 24px 22px 52px;
+  }
+}

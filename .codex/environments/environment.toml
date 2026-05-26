@@ -1,0 +1,10 @@
+[actions]
+
+[[actions.commands]]
+name = "Run"
+command = "./script/build_and_run.sh"
+
+[[actions.commands]]
+name = "Refresh Quick Look"
+command = "./script/build_and_run.sh --refresh-quicklook"
+
