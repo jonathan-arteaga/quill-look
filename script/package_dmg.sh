@@ -16,6 +16,7 @@ STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/quilllook-dmg.XXXXXX")"
 DMG_ROOT="$STAGING_DIR/dmg-root"
 BACKGROUND_DIR="$DMG_ROOT/.background"
 BACKGROUND_PNG="$BACKGROUND_DIR/background.png"
+UNINSTALLER_APP="$DMG_ROOT/Uninstall QuillLook.app"
 RW_DMG="$STAGING_DIR/$APP_NAME-$VERSION-rw.dmg"
 VOLUME_NAME="$APP_NAME"
 LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
@@ -187,14 +188,21 @@ build_release_app() {
 stage_dmg_contents() {
   /usr/bin/ditto --noqtn "$APP_PRODUCT" "$DMG_ROOT/$APP_NAME.app"
   /bin/ln -s /Applications "$DMG_ROOT/Applications"
+  "$ROOT/script/create_uninstaller_app.sh" "$UNINSTALLER_APP"
   "$ROOT/script/generate_dmg_background.swift" "$BACKGROUND_PNG"
 
   /usr/bin/find "$DMG_ROOT/$APP_NAME.app" -name .DS_Store -delete
+  /usr/bin/find "$UNINSTALLER_APP" -name .DS_Store -delete
   /usr/bin/dot_clean -m "$DMG_ROOT/$APP_NAME.app" >/dev/null 2>&1 || true
+  /usr/bin/dot_clean -m "$UNINSTALLER_APP" >/dev/null 2>&1 || true
   xattr -cr "$DMG_ROOT/$APP_NAME.app" >/dev/null 2>&1 || true
+  xattr -cr "$UNINSTALLER_APP" >/dev/null 2>&1 || true
   xattr -d com.apple.FinderInfo "$DMG_ROOT/$APP_NAME.app" >/dev/null 2>&1 || true
+  xattr -d com.apple.FinderInfo "$UNINSTALLER_APP" >/dev/null 2>&1 || true
 
   sign_app "$DMG_ROOT/$APP_NAME.app"
+  sign_bundle "$UNINSTALLER_APP"
+  codesign --verify --strict --verbose=2 "$UNINSTALLER_APP"
 }
 
 mount_rw_dmg() {
@@ -221,13 +229,14 @@ tell application "Finder"
     set current view of container window to icon view
     set toolbar visible of container window to false
     set statusbar visible of container window to false
-    set the bounds of container window to {100, 100, 760, 480}
+    set the bounds of container window to {100, 100, 860, 580}
     set viewOptions to the icon view options of container window
     set arrangement of viewOptions to not arranged
-    set icon size of viewOptions to 128
+    set icon size of viewOptions to 104
     set background picture of viewOptions to file ".background:background.png"
-    set position of item "$APP_NAME.app" of container window to {160, 210}
-    set position of item "Applications" of container window to {500, 210}
+    set position of item "$APP_NAME.app" of container window to {190, 205}
+    set position of item "Applications" of container window to {570, 205}
+    set position of item "Uninstall QuillLook.app" of container window to {380, 360}
     close
     open
     update without registering applications

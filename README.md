@@ -55,12 +55,18 @@ QuillLook renders common Markdown features directly inside Quick Look, including
 ## Install
 
 1. Download `QuillLook-0.1.0-macOS.dmg`.
-2. Open the DMG and drag `QuillLook.app` into Applications.
+2. Open the guided DMG and drag `QuillLook.app` into Applications.
 3. Open QuillLook once so macOS discovers the Quick Look extension.
 4. If macOS prompts you, enable the extension in System Settings.
 5. Select a Markdown file in Finder and press Space.
 
 The DMG is signed with Developer ID, notarized by Apple, and stapled for public distribution.
+
+## Uninstall
+
+Open the DMG and launch `Uninstall QuillLook.app`.
+
+The uninstaller asks for confirmation, removes QuillLook from Applications, unregisters the Quick Look extension, clears QuillLook caches/preferences, and refreshes Quick Look. If the app was installed in `/Applications` with stricter permissions, macOS may ask for an administrator password. Your Markdown files are not touched.
 
 ## Supported Files
 
@@ -95,6 +101,8 @@ If you used local development builds, stale copies can remain registered with ma
 ```bash
 ./script/build_and_run.sh --clean-stale
 ```
+
+End users can also run `Uninstall QuillLook.app` from the DMG to remove installed copies and clear Quick Look registrations.
 
 ## Build From Source
 
